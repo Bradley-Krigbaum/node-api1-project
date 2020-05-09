@@ -20,7 +20,7 @@ server.get('/', (request, response) => {
 })
 
 //=========================================================================================================================
-// CREATE
+// POST
 //=========================================================================================================================
 
 server.post('/api/users', (request, response) => {
@@ -42,15 +42,33 @@ server.post('/api/users/:id', (request, response) => {
 
 
 //=========================================================================================================================
-// READ
+// GET
 //=========================================================================================================================
 
 server.get('/api/users', (request, response) => {
-    response.status(200).json(users);
+    // response.status(200).json(users);
+
+    if (!response.status(200).json(users)) {
+        response.status(404).json({message: 'users not found!'})
+    } else {
+        response.status(200).json(users);
+    }
 })
 
 server.get('/api/users/:id', (request, response) => {
-    response.status(200).json(users);
+    // response.status(200).json(users);
+
+    const { getUserId } = request.params;
+    // console.log('server.delete: by id: ', id);
+
+    const foundGetUserId = users.find((users) => users.getUserId === getUserId);
+
+    if(foundGetUserId) {
+        users = users.filter(user => user.getUserId !== getUserId)
+        response.status(200).json(foundGetUserId)
+    } else {
+        response.status(404).json({message: 'user not found!'})
+    }
 });
 
 
