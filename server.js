@@ -77,7 +77,7 @@ server.delete('/api/users/:id', (request, response) => {
 
 
 //=========================================================================================================================
-// PATCH & PUT
+// PATCH
 //=========================================================================================================================
 
 server.patch('/api/users/:id', (request, response) => {
@@ -89,20 +89,6 @@ server.patch('/api/users/:id', (request, response) => {
     if(foundId) {
         Object.assign(foundId, changes);
         response.status(200).json(foundId);
-    } else {
-        response.status(404).json({message: 'user not found!'})
-    }
-})
-
-server.put('/api/users/:id', (reuqest, response) => {
-    const { id } = request.params;
-    const changes = request.body;
-
-    let index = users.findIndex((users) => users.id === id);
-
-    if(index !== -1) {
-        users[index] = changes;
-        response.status(200).json(index);
     } else {
         response.status(404).json({message: 'user not found!'})
     }
